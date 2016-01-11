@@ -17,12 +17,12 @@ class Config:
     rest_obj = RestObject()
     path = 'api/{username}'.format(username=self.user['name'])
     url = 'http://{bridge_ip}/{path}'.format(bridge_ip=self.bridge['ip'], path=path)
-    content = rest_obj.get(url)
-    content = dict(resource=content)
-    if 'lights' in content['resource']:
+    response = rest_obj.get(url)
+    response = dict(resource=response)
+    if 'lights' in response['resource']:
       return True
-    elif 'error' in content['resource'][0]:
-      error = content['resource'][0]['error']
+    elif 'error' in response['resource'][0]:
+      error = response['resource'][0]['error']
       if error['type'] == 1:
         return False
 
@@ -35,8 +35,8 @@ class Config:
     rest_obj = RestObject()
     url = 'http://{bridge_ip}/api'.format(bridge_ip=self.bridge['ip'])
     resource = {'devicetype': user, 'username': user}
-    content = rest_obj.post(url, resource)
-    return dict(resource=content)
+    response = rest_obj.post(url, resource)
+    return dict(resource=response)
 
   def deleteUser(self, user):
     """
@@ -48,5 +48,5 @@ class Config:
     service = 'config/whitelist/{id}'.format(id=user)
     path = 'api/{username}/{service}'.format(username=self.user['name'], service=service)
     url = 'http://{bridge_ip}/{path}'.format(bridge_ip=self.bridge['ip'], path=path)
-    content = rest_obj.delete(url)
-    return dict(resource=content)
+    response = rest_obj.delete(url)
+    return dict(resource=response)

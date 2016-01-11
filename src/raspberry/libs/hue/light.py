@@ -27,14 +27,14 @@ class Light:
     service = services[resource['which']]['service']
     path = 'api/{username}/{service}'.format(username=self.user['name'], service=service)
     url = 'http://{bridge_ip}/{path}'.format(bridge_ip=self.bridge['ip'], path=path)
-    content = rest_obj.get(url)
+    response = rest_obj.get(url)
     if service == 'lights':
       lights = []
-      for (k, v) in content.items():
+      for (k, v) in response.items():
         v['id'] = int(k)
         lights.append(v)
-      content = lights
-    return dict(resource=content)
+      response = lights
+    return dict(resource=response)
 
   def getNumLights(self):
     """
@@ -44,9 +44,9 @@ class Light:
     rest_obj = RestObject()
     path = 'api/{username}/lights'.format(username=self.user['name'])
     url = 'http://{bridge_ip}/{path}'.format(bridge_ip=self.bridge['ip'], path=path)
-    content = rest_obj.get(url)
+    response = rest_obj.get(url)
     lights = []
-    for (k, v) in content.items():
+    for (k, v) in response.items():
       v['id'] = int(k)
       lights.append(v)
     return len(lights)
@@ -73,8 +73,8 @@ class Light:
     rest_obj = RestObject()
     path = 'api/{username}/lights'.format(username=self.user['name'])
     url = 'http://{bridge_ip}/{path}'.format(bridge_ip=self.bridge['ip'], path=path)
-    content = rest_obj.post(url)
-    return dict(resource=content)
+    response = rest_obj.post(url)
+    return dict(resource=response)
 
   def update(self, resource):
     """
@@ -92,8 +92,8 @@ class Light:
       raise Exception('Unknown data type.')
     path = 'api/{username}/{service}'.format(username=self.user['name'], service=service)
     url = 'http://{bridge_ip}/{path}'.format(bridge_ip=self.bridge['ip'], path=path)
-    content = rest_obj.put(url, data)
-    return dict(resource=content)
+    response = rest_obj.put(url, data)
+    return dict(resource=response)
 
   def setLightColor(self, light, bri, hue, sat):
     """
