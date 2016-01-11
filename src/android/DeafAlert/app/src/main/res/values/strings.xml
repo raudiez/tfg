@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">DeafAlert</string>
+    <string name="settings_menu">Settings</string>
+    <string name="tittle" translatable="false">DeafAlert</string>
+    <string name="question">Do you want delete this alert?</string>
+    <string name="cancel">Cancel</string>
+    <string name="okey">Yes</string>
+    <string name="title_activity_settings_acitivity">Settings</string>
+    <string name="pref_header_general">Alerts server</string>
+    <string name="pref_title_display_name">IP Address</string>
+    <string name="pref_default_ip_address" translatable="false">192.168.2.191</string>
+    <string name="mainactivity_send_packet_error">Can\'t synchronize data.</string>
+    <string name="mainactivity_no_data_error">No more alerts.</string>
+    <string name="mainactivity_conn_ok">Connection OK.</string>
+    <string name="mainactivity_conn_error">Can\'t connect.</string>
+    <string name="mainactivity_server_conn_error">Can\'t connect to Alert Server.</string>
+    <string name="mainactivity_wifi_error">No WiFi Connection. Please, enable your WiFi.</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cancel">Cancelar</string>
+    <string name="okey">Sí</string>
+    <string name="pref_header_general">Servidor de alertas</string>
+    <string name="pref_title_display_name">Dirección IP</string>
+    <string name="question">¿Desea eliminar esta alerta?</string>
+    <string name="settings_menu">Configuración</string>
+    <string name="title_activity_settings_acitivity">Configuración</string>
+    <string name="mainactivity_conn_error">No se pudo conectar.</string>
+    <string name="mainactivity_conn_ok">Conexión establecida.</string>
+    <string name="mainactivity_no_data_error">No hay más alertas.</string>
+    <string name="mainactivity_send_packet_error">No se pudo sincronizar con el servidor.</string>
+    <string name="mainactivity_server_conn_error">No se pudo conectar con el servidor.</string>
+    <string name="mainactivity_wifi_error">La conexión WiFi no está activa. Por favor, active su conexión WiFi.</string>
+</resources>
