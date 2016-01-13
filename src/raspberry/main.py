@@ -73,7 +73,7 @@ def linkUserConfig():
   print MSG_LINK
   data = MSG_LINK
   while not created:
-    response = bridge.config.createUser(username)['resource']
+    response = bridge.config.createUser(USERNAME)['resource']
     if 'error' in response[0]:
       if response[0]['error']['type'] != 101:
         print 'Unhandled error creating configuration on the Hue'
