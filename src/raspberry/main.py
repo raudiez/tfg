@@ -22,10 +22,10 @@ USERNAME = 'hueusertest'
 HUE_IP = '192.168.2.121'
 DING=17
 INTERCOM=18
+LANG='es' #Change between 'es' and 'en'.
 # End of configurable zone.
 ###########################
 
-locale.setlocale(locale.LC_TIME, "es_ES.utf8")
 bridge = Bridge(device={'ip':HUE_IP}, user={'name':USERNAME})
 #GPIO setup:
 GPIO.setmode(GPIO.BCM)
@@ -45,9 +45,36 @@ sock.bind(('', 8080))
 #Global data var:
 data=""
 
+#Messages vars:
+MSG_LINK = ""
+MSG_LINK_ES ="Presiona el botón del puente Hue."
+MSG_LINK_EN ="Press the button on the Hue bridge."
+MSG_DING = ""
+MSG_DING_ES = "Alguien llama al timbre."
+MSG_DING_EN = "Somebody rings the bell."
+MSG_INTERCOM = ""
+MSG_INTERCOM_ES = "Alguien llama al telefonillo."
+MSG_INTERCOM_EN = "Somebody calls the intercom."
+
+
+
+if LANG == 'es':
+  locale.setlocale(locale.LC_TIME, "es_ES.utf8")
+  MSG_LINK = MSG_LINK_ES
+  MSG_DING = MSG_DING_ES
+  MSG_INTERCOM = MSG_INTERCOM_ES
+elif LANG == 'en':
+  locale.setlocale(locale.LC_TIME, "en_US")
+  MSG_LINK = MSG_LINK_EN
+  MSG_DING = MSG_DING_EN
+  MSG_INTERCOM = MSG_INTERCOM_EN
+
+
 def linkUserConfig():
+  global data
   created = False
-  print 'Press the button on the Hue bridge'
+  print MSG_LINK
+  data = MSG_LINK
   while not created:
     response = bridge.config.createUser(username)['resource']
     if 'error' in response[0]:
@@ -97,6 +124,7 @@ def intercomAlert():
 
 def sendAlertToAndroid():
   while True:
+    global data
     req, client_address = sock.recvfrom(1024) # get the request, 1kB max
     print "Connection from: ", client_address[0]
     # Look in the first line of the request for a valid command
@@ -105,6 +133,9 @@ def sendAlertToAndroid():
     if match:
       if data != "":
         sock.sendto(data,(client_address[0],8081))
+        data = ""
+      else:
+        sock.sendto("",(client_address[0],8081))
     else:
       # If there was no recognised command then return a 404 (page not found)
       print "Returning 404"
@@ -121,13 +152,13 @@ def main():
       linkUserConfig()
 
     if not GPIO.input(INTERCOM):
-      cad = "Intercom alert."
+      cad = MSG_INTERCOM
       print cad
       data = time.strftime("%d/%b %H:%M:%S")+" - "+cad
       intercomAlert()
 
     if not GPIO.input(DING):
-      cad = "Ding alert."
+      cad = MSG_DING
       print cad
       data = time.strftime("%d/%b %H:%M:%S")+" - "+cad
       dingAlert()
