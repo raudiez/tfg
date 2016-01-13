@@ -19,29 +19,29 @@ from libs.hue import Bridge
 ##########################
 # Configurable zone:
 USERNAME = 'ucahueuser'
-HUE_IP = '192.168.2.121'
 DING=17
 INTERCOM=18
 LANG='es'
 # End of configurable zone.
 ###########################
 
-bridge = Bridge(device={'ip':HUE_IP}, user={'name':USERNAME})
 #GPIO setup:
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(DING,GPIO.IN)
 GPIO.setup(INTERCOM,GPIO.IN)
+
 #Used colors:
 RED=0
 BLUE=46920
 
-# UDP socket configuration
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind(('', 8080))
-
-#Global data var:
+#Global vars without initial value:
 data=""
+bridge=None
+sock=None
+
+# Command to discover Philips Hue bridge's IP.
+cmd = 'ip route show | grep "src" | egrep -o "([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}"| xargs nmap -sn | grep Philips-hue | egrep -o "([0-9]{1,3}\.){3}[0-9]{1,3}"'
 
 #Messages vars:
 MSG_LINK = ""
@@ -53,17 +53,6 @@ MSG_DING_EN = "Somebody rings the bell."
 MSG_INTERCOM = ""
 MSG_INTERCOM_ES = "Alguien llama al telefonillo."
 MSG_INTERCOM_EN = "Somebody calls the intercom."
-
-if LANG == 'es':
-  locale.setlocale(locale.LC_TIME, "es_ES.utf8")
-  MSG_LINK = MSG_LINK_ES
-  MSG_DING = MSG_DING_ES
-  MSG_INTERCOM = MSG_INTERCOM_ES
-else:
-  locale.setlocale(locale.LC_TIME, "")
-  MSG_LINK = MSG_LINK_EN
-  MSG_DING = MSG_DING_EN
-  MSG_INTERCOM = MSG_INTERCOM_EN
 
 def linkUserConfig():
   global data
@@ -137,6 +126,29 @@ def sendAlertToAndroid():
 
 def main():
   global data
+  global bridge
+  global sock
+
+  # UDP socket configuration:
+  sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+  sock.bind(('', 8080))
+
+  # Gets Hue bridge's IP and create an Bridge object.
+  HUE_IP = os.popen(cmd).read().strip()
+  bridge = Bridge(device={'ip':HUE_IP}, user={'name':USERNAME})
+
+  # Sets message vars.
+  if LANG == 'es':
+    locale.setlocale(locale.LC_TIME, "es_ES.utf8")
+    MSG_LINK = MSG_LINK_ES
+    MSG_DING = MSG_DING_ES
+    MSG_INTERCOM = MSG_INTERCOM_ES
+  else:
+    locale.setlocale(locale.LC_TIME, "")
+    MSG_LINK = MSG_LINK_EN
+    MSG_DING = MSG_DING_EN
+    MSG_INTERCOM = MSG_INTERCOM_EN
+
   t = threading.Thread(target=sendAlertToAndroid)
   t.start()
   while True:
