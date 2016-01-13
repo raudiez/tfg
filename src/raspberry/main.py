@@ -25,17 +25,17 @@ LANG='es'
 # End of configurable zone.
 ###########################
 
-#GPIO setup:
+# GPIO setup:
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(DING,GPIO.IN)
 GPIO.setup(INTERCOM,GPIO.IN)
 
-#Used colors:
+# Used colors:
 RED=0
 BLUE=46920
 
-#Global vars without initial value:
+# Global vars without initial value:
 data=""
 bridge=None
 sock=None
@@ -43,7 +43,7 @@ sock=None
 # Command to discover Philips Hue bridge's IP.
 cmd = 'ip route show | grep "src" | egrep -o "([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}"| xargs nmap -sn | grep Philips-hue | egrep -o "([0-9]{1,3}\.){3}[0-9]{1,3}"'
 
-#Messages vars:
+# Messages vars:
 MSG_LINK = ""
 MSG_LINK_ES ="Presiona el botón del puente Hue."
 MSG_LINK_EN ="Press the button on the Hue bridge."
@@ -68,7 +68,7 @@ def linkUserConfig():
     else:
       created = True
 
-def dingAlert():
+def lightAlert(alert_color):
   numlights = bridge.light.getNumLights()
   oldstate = dict()
   for i in range(1,numlights+1):
@@ -76,26 +76,7 @@ def dingAlert():
   for i in range(1,4):
     for j in range(1,numlights+1):
       if bridge.light.isPhisicallyOn(j):
-        bridge.light.setLightState(j, True, 254, BLUE, 254)
-    time.sleep(1)
-    for j in range(1,numlights+1):
-      if bridge.light.isPhisicallyOn(j):
-        bridge.light.setLightColor(j, oldstate[j]['bri'], oldstate[j]['hue'], oldstate[j]['sat'])
-    time.sleep(0.3)
-    for j in range(1,numlights+1):
-      if bridge.light.isPhisicallyOn(j) and not oldstate[j]['on']:
-        bridge.light.setLightOff(j)
-    time.sleep(1)
-
-def intercomAlert():
-  numlights = bridge.light.getNumLights()
-  oldstate = dict()
-  for i in range(1,numlights+1):
-    oldstate[i] = bridge.light.getLightState(i)
-  for i in range(1,4):
-    for j in range(1,numlights+1):
-      if bridge.light.isPhisicallyOn(j):
-        bridge.light.setLightState(j, True, 254, RED, 254)
+        bridge.light.setLightState(j, True, 254, alert_color, 254)
     time.sleep(1)
     for j in range(1,numlights+1):
       if bridge.light.isPhisicallyOn(j):
@@ -160,12 +141,12 @@ def main():
     if not GPIO.input(INTERCOM):
       cad = MSG_INTERCOM
       data = time.strftime("%d/%b %H:%M:%S")+" - "+cad
-      intercomAlert()
+      lightAlert(RED)
 
     if not GPIO.input(DING):
       cad = MSG_DING
       data = time.strftime("%d/%b %H:%M:%S")+" - "+cad
-      dingAlert()
+      lightAlert(BLUE)
 
     bridge.light.findNewLights()
 
