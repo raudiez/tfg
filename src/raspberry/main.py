@@ -34,8 +34,6 @@ GPIO.setup(DING,GPIO.IN)
 GPIO.setup(INTERCOM,GPIO.IN)
 #Used colors:
 RED=0
-#YELLOW=12750
-GREEN=25500
 BLUE=46920
 
 # UDP socket configuration
@@ -123,7 +121,6 @@ def sendAlertToAndroid():
   while True:
     global data
     req, client_address = sock.recvfrom(1024) # get the request, 1kB max
-    print "Connection from: ", client_address[0]
     # Look in the first line of the request for a valid command
     # The command should be 'http://server/getAlert'
     match = re.match('GET /getAlert', req)
