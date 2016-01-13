@@ -11,6 +11,7 @@ import re
 import RPi.GPIO as GPIO
 import socket
 import sys
+import threading
 import time
 
 from libs.hue import Bridge
@@ -32,7 +33,7 @@ GPIO.setwarnings(False)
 GPIO.setup(DING,GPIO.IN)
 GPIO.setup(INTERCOM,GPIO.IN)
 #Used colors:
-#RED=0
+RED=0
 #YELLOW=12750
 GREEN=25500
 BLUE=46920
@@ -40,6 +41,9 @@ BLUE=46920
 # UDP socket configuration
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind(('', 8080))
+
+#Global data var:
+data=""
 
 def linkUserConfig():
   created = False
@@ -80,7 +84,7 @@ def intercomAlert():
   for i in range(1,4):
     for j in range(1,numlights+1):
       if bridge.light.isPhisicallyOn(j):
-        bridge.light.setLightState(j, True, 254, GREEN, 254)
+        bridge.light.setLightState(j, True, 254, RED, 254)
     time.sleep(1)
     for j in range(1,numlights+1):
       if bridge.light.isPhisicallyOn(j):
@@ -91,22 +95,27 @@ def intercomAlert():
         bridge.light.setLightOff(j)
     time.sleep(1)
 
-def sendAlertToAndroid(alert_str):
-  data = time.strftime("%d/%b %H:%M:%S")+" - "+alert_str
-  req, client_address = sock.recvfrom(1024) # get the request, 1kB max
-  print "Connection from: ", client_address[0]
-  # Look in the first line of the request for a valid command
-  # The command should be 'http://server/getAlert'
-  match = re.match('GET /getAlert', req)
-  if match:
-    sock.sendto(data,(client_address[0],8081))
-  else:
-    # If there was no recognised command then return a 404 (page not found)
-    print "Returning 404"
-    sock.sendto("HTTP/1.1 404 Not Found\r\n",(client_address,8081))
+def sendAlertToAndroid():
+  while True:
+    req, client_address = sock.recvfrom(1024) # get the request, 1kB max
+    print "Connection from: ", client_address[0]
+    # Look in the first line of the request for a valid command
+    # The command should be 'http://server/getAlert'
+    match = re.match('GET /getAlert', req)
+    if match:
+      if data != "":
+        sock.sendto(data,(client_address[0],8081))
+    else:
+      # If there was no recognised command then return a 404 (page not found)
+      print "Returning 404"
+      sock.sendto("HTTP/1.1 404 Not Found\r\n",(client_address,8081))
 
 def main():
+  global data
+  t = threading.Thread(target=sendAlertToAndroid)
+  t.start()
   while True:
+    data = ""
     if not bridge.config.isConnected():
       print 'Unauthorized user'
       linkUserConfig()
@@ -114,17 +123,16 @@ def main():
     if not GPIO.input(INTERCOM):
       cad = "Intercom alert."
       print cad
-      sendAlertToAndroid(cad)
+      data = time.strftime("%d/%b %H:%M:%S")+" - "+cad
       intercomAlert()
 
     if not GPIO.input(DING):
       cad = "Ding alert."
       print cad
-      sendAlertToAndroid(cad)
+      data = time.strftime("%d/%b %H:%M:%S")+" - "+cad
       dingAlert()
 
     bridge.light.findNewLights()
-
 
 try:
   main()
