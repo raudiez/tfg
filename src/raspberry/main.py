@@ -22,7 +22,7 @@ USERNAME = 'ucahueuser'
 HUE_IP = '192.168.2.121'
 DING=17
 INTERCOM=18
-LANG='es' #Change between 'es' and 'en'.
+LANG='es'
 # End of configurable zone.
 ###########################
 
@@ -59,8 +59,8 @@ if LANG == 'es':
   MSG_LINK = MSG_LINK_ES
   MSG_DING = MSG_DING_ES
   MSG_INTERCOM = MSG_INTERCOM_ES
-elif LANG == 'en':
-  locale.setlocale(locale.LC_TIME, "en_US")
+else:
+  locale.setlocale(locale.LC_TIME, "")
   MSG_LINK = MSG_LINK_EN
   MSG_DING = MSG_DING_EN
   MSG_INTERCOM = MSG_INTERCOM_EN
