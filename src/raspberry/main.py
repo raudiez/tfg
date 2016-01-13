@@ -18,7 +18,7 @@ from libs.hue import Bridge
 
 ##########################
 # Configurable zone:
-USERNAME = 'hueusertest'
+USERNAME = 'ucahueuser'
 HUE_IP = '192.168.2.121'
 DING=17
 INTERCOM=18
@@ -56,8 +56,6 @@ MSG_INTERCOM = ""
 MSG_INTERCOM_ES = "Alguien llama al telefonillo."
 MSG_INTERCOM_EN = "Somebody calls the intercom."
 
-
-
 if LANG == 'es':
   locale.setlocale(locale.LC_TIME, "es_ES.utf8")
   MSG_LINK = MSG_LINK_ES
@@ -68,7 +66,6 @@ elif LANG == 'en':
   MSG_LINK = MSG_LINK_EN
   MSG_DING = MSG_DING_EN
   MSG_INTERCOM = MSG_INTERCOM_EN
-
 
 def linkUserConfig():
   global data
