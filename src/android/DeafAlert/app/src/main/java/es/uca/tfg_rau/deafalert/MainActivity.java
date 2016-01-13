@@ -184,9 +184,11 @@ public class MainActivity extends AppCompatActivity {
                             }
                             if (!stop2) {
                                 String cad = new String(recvPacket.getData(), 0, recvPacket.getLength());
-                                textRaspberry.setText(getText(R.string.mainactivity_conn_ok));
-                                alertAdapter.setData(cad);
-                                if(!appIsInForegroundMode) notifyAlertToNotification(cad);
+                                if (!cad.equals("")) {
+                                    textRaspberry.setText(getText(R.string.mainactivity_conn_ok));
+                                    alertAdapter.setData(cad);
+                                    if (!appIsInForegroundMode) notifyAlertToNotification(cad);
+                                }else textRaspberry.setText(getText(R.string.mainactivity_no_data_error));
                                 //Log.d("Data from raspberry:", " > " + cad);
                             }
                             socket.close();
