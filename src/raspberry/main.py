@@ -91,10 +91,10 @@ def intercomAlert():
         bridge.light.setLightOff(j)
     time.sleep(1)
 
-def sendAlertToAndroid(alert_str, client_address):
+def sendAlertToAndroid(alert_str):
   data = time.strftime("%d/%b %H:%M:%S")+" - "+alert_str
+  req, client_address = sock.recvfrom(1024) # get the request, 1kB max
   print "Connection from: ", client_address[0]
-  print req
   # Look in the first line of the request for a valid command
   # The command should be 'http://server/getAlert'
   match = re.match('GET /getAlert', req)
@@ -110,17 +110,17 @@ def main():
     if not bridge.config.isConnected():
       print 'Unauthorized user'
       linkUserConfig()
-    req, client_address = sock.recvfrom(1024) # get the request, 1kB max
+
     if not GPIO.input(INTERCOM):
       cad = "Intercom alert."
       print cad
-      sendAlertToAndroid(cad,client_address)
+      sendAlertToAndroid(cad)
       intercomAlert()
 
     if not GPIO.input(DING):
       cad = "Ding alert."
       print cad
-      sendAlertToAndroid(cad,client_address)
+      sendAlertToAndroid(cad)
       dingAlert()
 
     bridge.light.findNewLights()
