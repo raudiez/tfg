@@ -147,13 +147,11 @@ def main():
 
     if not GPIO.input(INTERCOM):
       cad = MSG_INTERCOM
-      print cad
       data = time.strftime("%d/%b %H:%M:%S")+" - "+cad
       intercomAlert()
 
     if not GPIO.input(DING):
       cad = MSG_DING
-      print cad
       data = time.strftime("%d/%b %H:%M:%S")+" - "+cad
       dingAlert()
 
