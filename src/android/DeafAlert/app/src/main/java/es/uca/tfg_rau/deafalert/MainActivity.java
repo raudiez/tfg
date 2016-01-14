@@ -171,7 +171,6 @@ public class MainActivity extends AppCompatActivity {
                             textRaspberry.setText(getText(R.string.mainactivity_send_packet_error));
                         }
                         if(!stop) {
-                            //Hecha petición, ahora espera la respuesta:
                             boolean stop2 = false;
                             byte[] recvBuff = new byte[1024];
                             DatagramPacket recvPacket = new DatagramPacket(recvBuff, recvBuff.length);
@@ -189,10 +188,9 @@ public class MainActivity extends AppCompatActivity {
                                     alertAdapter.setData(cad);
                                     if (!appIsInForegroundMode) notifyAlertToNotification(cad);
                                 }else textRaspberry.setText(getText(R.string.mainactivity_no_data_error));
-                                //Log.d("Data from raspberry:", " > " + cad);
                             }
                             socket.close();
-                        }//1st stop
+                        }//stop
                     }else{
                         textRaspberry.setText(getText(R.string.mainactivity_conn_error));
                         socket.close();
