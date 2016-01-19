@@ -42,7 +42,7 @@ sock=None
 
 # Command to discover Philips Hue bridge's IP.
 
-cmd = 'ip route show|grep \'src\'|egrep -o \'([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}\'|xargs sudo arp-scan|grep -i "Philips Lighting"|awk \'{print $1}\''
+cmd = 'ip route show|grep \'src\'|egrep -o \'([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}\'|xargs arp-scan|grep -i "Philips Lighting"|awk \'{print $1}\''
 
 # Messages vars:
 MSG_LINK = ""
