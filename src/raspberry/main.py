@@ -42,7 +42,7 @@ sock=None
 
 # Command to discover Philips Hue bridge's IP.
 
-cmd = 'repeat_scan=true ; while ($repeat_scan); do hue_ip=$(ip route show|grep \'src\'|egrep -o \'([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}\'|xargs sudo arp-scan|grep -i "Philips Lighting"|awk \'{print $1}\') ; if [ "$hue_ip" != "" ]; then repeat_scan=false ; echo "Hue found with IP $hue_ip" ; sleep 2 ; else echo "Hue not found yet..." ; fi ; done'
+cmd = 'repeat_scan=true ; while ($repeat_scan); do hue_ip=$(ip route show|grep \'src\'|egrep -o \'([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}\'|xargs sudo arp-scan|grep -i "Philips Lighting"|awk \'{print $1}\') ; if [ "$hue_ip" != "" ]; then repeat_scan=false ; echo $hue_ip ; sleep 2 ; fi ; done'
 
 # Messages vars:
 MSG_LINK = ""
