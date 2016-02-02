@@ -70,6 +70,7 @@ def linkUserConfig():
       created = True
 
 def lightAlert(alert_color):
+  global bridge
   if not bridge.config.isConnected():
     print 'Unauthorized user'
     linkUserConfig()
@@ -139,7 +140,6 @@ def main():
   t.start()
   while True:
     data = ""
-
     if not GPIO.input(INTERCOM):
       cad = MSG_INTERCOM
       data = time.strftime("%d/%b %H:%M:%S")+" - "+cad
