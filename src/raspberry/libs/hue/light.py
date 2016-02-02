@@ -109,7 +109,7 @@ class Light:
     }
     return self.update(resource)
 
-  def setLightState(self, light, on, bri, hue, sat):
+  def setLightState(self, light, on, bri, hue, sat, xy):
     """
     @summary: Set light color. It uses self.update.
     @params: light -> Light number to change color.
@@ -117,10 +117,11 @@ class Light:
              bri -> Color brightness.
              hue -> Hue color num.
              sat -> Color saturation.
+             xy -> xy color.
     """
     resource = {
       'which':light,
-      'data':{'state':{'on':on,'bri':bri,'hue':hue,'sat':sat}}
+      'data':{'state':{'on':on,'bri':bri,'hue':hue,'sat':sat, 'xy':xy}}
     }
     return self.update(resource)
 

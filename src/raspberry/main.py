@@ -82,11 +82,12 @@ def lightAlert(alert_color):
   for i in range(1,4):
     for j in range(1,numlights+1):
       if bridge.light.isPhisicallyOn(j):
-        bridge.light.setLightState(j, True, 254, alert_color, 254)
+        bridge.light.setLightOn(j)
+        bridge.light.setLightColor(j, 254, alert_color, 254)
     time.sleep(1)
     for j in range(1,numlights+1):
       if bridge.light.isPhisicallyOn(j):
-        bridge.light.setLightColor(j, oldstate[j]['bri'], oldstate[j]['hue'], oldstate[j]['sat'])
+        bridge.light.setLightColor(j, oldstate[j]['bri'], oldstate[j]['hue'], oldstate[j]['sat'], oldstate[j]['xy'])
     time.sleep(0.3)
     for j in range(1,numlights+1):
       if bridge.light.isPhisicallyOn(j) and not oldstate[j]['on']:
