@@ -70,6 +70,10 @@ def linkUserConfig():
       created = True
 
 def lightAlert(alert_color):
+  if not bridge.config.isConnected():
+    print 'Unauthorized user'
+    linkUserConfig()
+  bridge.light.findNewLights()
   numlights = bridge.light.getNumLights()
   oldstate = dict()
   for i in range(1,numlights+1):
@@ -135,9 +139,6 @@ def main():
   t.start()
   while True:
     data = ""
-    if not bridge.config.isConnected():
-      print 'Unauthorized user'
-      linkUserConfig()
 
     if not GPIO.input(INTERCOM):
       cad = MSG_INTERCOM
@@ -148,8 +149,6 @@ def main():
       cad = MSG_DING
       data = time.strftime("%d/%b %H:%M:%S")+" - "+cad
       lightAlert(BLUE)
-
-    bridge.light.findNewLights()
 
 try:
   main()
