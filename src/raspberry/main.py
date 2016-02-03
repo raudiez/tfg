@@ -41,7 +41,6 @@ bridge=None
 sock=None
 
 # Command to discover Philips Hue bridge's IP.
-
 cmd = 'repeat_scan=true ; while ($repeat_scan); do hue_ip=$(ip route show|grep \'src\'|egrep -o \'([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}\'|xargs arp-scan|grep -i "Philips Lighting"|awk \'{print $1}\') ; if [ "$hue_ip" != "" ]; then repeat_scan=false ; echo $hue_ip ; sleep 2 ; fi ; done'
 
 # Messages vars:
