@@ -1,0 +1,40 @@
+Hoy día, en cualquier vivienda existen demasiadas alertas sonoras como para controlarlas todas. Se pretende así por tanto tratar las alertas más importantes para que las personas con discapacidad puedan percibir los avisos más importantes.
+
+\section{Informe de diagnóstico}
+\label{sec:informediagnostico}
+
+En este punto se tratan los distintos aspectos a tener en cuenta dentro de una vivienda estándar en cuanto a alertas se refiere. Este informe es la base de parte de los requisitos no funcionales.
+
+    \subsection{Timbre de la puerta}
+
+    Un caso es el timbre de la puerta, donde una persona con discapacidad auditiva es poco probable que sea capaz de percibir las alertas que genere.
+
+    \subsection{Telefonillo (portero automático)}
+
+    Otro caso es el del portero automático, del cual existen 2 tipos básicos: analógicos y digitales. Pese a que los telefonillos digitales son tecnológicamente superiores, se siguen utilizando telefonillos analógicos, debido a su bajo coste en comparación. Además, históricamente, el uso del telefonillo analógico es más extendido. Debido a estas razones, en este Proyecto se tendrá en cuenta el uso de telefonillo analógico, para abarcar un mayor rango de posibles instalaciones.
+
+    Entre los telefonillos analógicos, existen 2 tipos atendiendo al tipo de llamada que realizan:
+    \begin{itemize}
+        \item Llamada zumbador.
+        \item Llamada electrónica.
+    \end{itemize}
+
+    La diferencia principal entre ambos reside en su funcionamiento y la forma de generar la alerta sonora~\cite{llamadatelefonillo}.
+
+    \begin{itemize}
+        \item \textbf{Telefonillos analógicos de llamada zumbador}: En los telefonillos con llamada zumbador, una vez que se realiza la llamada, el grupo fónico de la placa exterior a la vivienda genera una señal alterna de 12 Vac que envía por el hilo de llamada. La señal alterna llega al zumbador situado en el teléfono, haciendo que el zumbador vibre y finalmente produzca el sonido de la llamada.
+        \item \textbf{Telefonillos analógicos de llamada electrónica}: En los telefonillos con llamada electrónica, una vez que se realiza la llamada, el grupo fónico de la placa exterior a la vivienda genera una señal formada por diferentes frecuencias, y la envía por el hilo de llamada. La señal llega al altavoz del auricular del teléfono, produciendo el sonido de la llamada. La llamada puede ser de varios tipos en función del número de frecuencias utilizadas.
+    \end{itemize}
+
+    Teniendo en cuenta que los de llamada zumbador envían una señal de 12 Vac, y los de llamada electrónica una señal de varias frecuencias, es más fácil trabajar con los del primer tipo, pudiendo darse soluciones electrónicas bastante sencillas. Además, son el tipo más extendido, y el que más probabilidades hay de encontrar en una vivienda. Se utilizará por tanto un telefonillo de este tipo para la implementación del sistema y la demostración de funcionamiento.
+
+    \subsection{Bombillas}
+
+    En cuanto a las bombillas existentes en una vivienda, las más empleadas son las bombillas de casquillo E27, también llamadas bombillas de rosca Edison. Por tanto, para abarcar un mayor rango de posibles instalaciones, este Proyecto se basará en el uso de bombillas de este tipo. \\
+
+    En caso de manipular estas bombillas, existen dos posibilidades: hacerlo mediante la propia instalación eléctrica, o manipularlas de manera inalámbrica.
+
+    \subsection{Router integrado}
+    \label{sec:routerintegrado}
+
+    Dentro de una vivienda habitualmente se puede encontrar un router integrado, dispositivo que integra las funciones y conexiones de un router, un punto de acceso WiFi y un switch Ethernet. Este dispositivo suele ser instalado por el Proveedor de Servicio de Internet (ISP) o incluso hay usuarios que adquieren un router integrado neutro (no ligado a un ISP) por separado.

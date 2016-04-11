@@ -1,0 +1,155 @@
+%---------COMANDOS------------------------------
+%\setheadsepline{.4pt}
+\parindent = 0mm
+\topmargin = -0.5cm
+\headsep = 1cm
+
+%% Títulos de los índices de las partes
+
+\renewcommand{\ptctitle}{Índice}
+\renewcommand{\ptifont}{\Huge\bf}
+
+%% Títulos de las partes, para el encabezado
+
+\newcommand*\parttitle{}
+\let\origpart\part
+\renewcommand*{\part}[2][]{%
+   \ifx\\#1\\% optional argument not present?
+      \origpart{#2}%
+      \renewcommand*\parttitle{#2}%
+   \else
+      \origpart[#1]{#2}%
+      \renewcommand*\parttitle{#1}%
+   \fi
+}
+
+%%% Encabezado y pie de página %%%
+\pagestyle{plain}
+\fancypagestyle{plain}{
+    \fancyhf{} % remove everything
+    \renewcommand{\headrulewidth}{0pt} % remove lines as well
+    \renewcommand{\footrulewidth}{0pt}
+}
+\fancypagestyle{fancytfg}{
+    \renewcommand{\headrulewidth}{0.5pt}
+    \fancyhf{}
+    \fancyhead[RE,LO]{\footnotesize{SISTEMA DE AVISOS PARA DISCAPACITADOS AUDITIVOS}\vspace{0.5cm} }
+    \fancyhead[LE,RO]{\vspace{0.5cm} \footnotesize\MakeUppercase{\parttitle}}
+    \fancyfoot[CE,CO]{\vspace{0.5cm} \thepage}
+}
+\pagestyle{fancytfg}
+
+%% Bibliografía como section.
+\patchcmd{\thebibliography}{\chapter*}{\section}{}{}
+
+%% Capítulos sin salto de página tras ellos.
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
+
+%% Para usar el €
+\DeclareUnicodeCharacter{20AC}{\euro}
+
+\setcounter{secnumdepth}{5} % chapters, sections, subsections, paragraphs and subparagraph are numbered
+\setcounter{tocdepth}{5} % chapters, sections, subsections, paragraphs and subparagraph are in the Table of Contents
+
+%% CODES
+\lstset{inputencoding=utf8/latin1}
+\lstset{
+    tabsize=4,
+    basicstyle=\ttfamily\footnotesize,                   % Code font
+    commentstyle=\color{gray45},              % Comments font
+    numbers=left,                           % Line nums position
+    numberstyle=\tiny,                      % Line-numbers fonts
+    stepnumber=1,                           % Step between two line-numbers
+    numbersep=10pt,                         % How far are line-numbers from code]
+    captionpos=b,                           % Caption-position = bottom
+    breaklines=true,                        % Automatic line breaking?
+    breakatwhitespace=false,                % Automatic breaks only at whitespace?
+    showspaces=false,                       % Dont make spaces visible
+    showtabs=false,                         % Dont make tabls visible
+    columns=flexible,                       % Column format
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Python style for highlighting
+\newcommand\pythonstyle{\lstset{
+language=Python,
+otherkeywords={self},             % Add keywords here
+keywordstyle=\small\color{azuloscuro},
+emph={MyClass,__init__},          % Custom highlighting
+emphstyle=\small\color{rojo},    % Custom highlighting style
+stringstyle=\color{verdeoscuro},
+frame=tb,                         % Any extra options here
+showstringspaces=false            % 
+}}
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arduino style for highlighting
+\newcommand\arduinostyle{\lstset{
+language=C++,
+otherkeywords={self},             % Add keywords here
+keywordstyle=\small\color{azulis},
+emph={loop,setup},          % Custom highlighting
+emphstyle=\small\color{verdeoscuro},    % Custom highlighting style
+stringstyle=\color{rojo},
+frame=tb,                         % Any extra options here
+showstringspaces=false            % 
+}}
+
+% Arduino environment
+\lstnewenvironment{arduino}[1][]
+{
+\arduinostyle
+\lstset{#1}
+}
+{}
+
+% Arduino for external files
+\newcommand\arduinoexternal[2][]{{
+\arduinostyle
+\lstinputlisting[#1]{#2}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Android style for highlighting
+\newcommand\androidstyle{\lstset{
+language=Java,
+otherkeywords={self},             % Add keywords here
+keywordstyle=\small\color{azul},
+emph={loop,setup},          % Custom highlighting
+emphstyle=\small\color{gris},    % Custom highlighting style
+stringstyle=\color{verdeoscuro},
+frame=tb,                         % Any extra options here
+showstringspaces=false            % 
+}}
+
+% Android environment
+\lstnewenvironment{android}[1][]
+{
+\androidstyle
+\lstset{#1}
+}
+{}
+
+% Android for external files
+\newcommand\androidexternal[2][]{{
+\androidstyle
+\lstinputlisting[#1]{#2}}}
+
+
+
+%% Para centrar columnas con tamaño fijado:
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}

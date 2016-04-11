@@ -1,0 +1,103 @@
+\documentclass[a4paper,11pt,draft]{book}
+% PAQUETES
+\usepackage{./estilo/paquetes}
+\usepackage{./estilo/colores}
+\usepackage{./estilo/comandos}
+
+% Ruta al directorio de imágenes
+\graphicspath{{./img/}} 
+
+% METADATOS
+\title{SISTEMA DE AVISOS PARA DISCAPACITADOS AUDITIVOS}
+\author{Raul}
+\date{Junio 2015} 
+ 
+\begin{document}
+
+\pagenumbering{gobble}
+\pagestyle{empty}
+% PORTADAS
+\input{./portadas/portada-inicial}
+\cleardoublepage
+
+\input{./portadas/portada-secundaria}
+\cleardoublepage
+
+% PRELIMINARES
+\input{contenido/agradecimientos}
+\clearpage
+
+\frontmatter
+
+\input{./portadas/portada-indice}
+\cleardoublepage
+% INDICES
+\doparttoc
+\tableofcontents
+\cleardoublepage
+\listoffigures
+\cleardoublepage
+\listoftables
+\cleardoublepage
+
+\mainmatter
+
+\makeatletter
+\let\ps@plain\ps@fancytfg
+\makeatother
+
+\pagestyle{empty}
+%% MEMORIA
+\part[Memoria]{
+    \vspace{-4.0cm}
+    \input{./portadas/portada-memoria}
+}
+\parttoc
+\pagestyle{fancytfg}
+\input{./memoria}
+
+\clearpage
+\pagestyle{empty}
+%% PLANOS
+\part[Planos]{
+    \vspace{-4.0cm}
+    \input{./portadas/portada-planos}
+}
+\parttoc
+\pagestyle{fancytfg}
+\input{./planos}
+
+\clearpage
+\pagestyle{empty}
+%% ANEXOS
+\part[Anexos]{
+    \vspace{-4.0cm}
+    \input{./portadas/portada-anexos}
+}
+\parttoc
+\pagestyle{fancytfg}
+\input{./anexos}
+
+\clearpage
+\pagestyle{empty}
+%% ESPECIFICACIÓN DEL SISTEMA
+\part[Especificaciones del Sistema]{
+    \vspace{-4.0cm}
+    \input{./portadas/portada-especificaciones}
+}
+\parttoc
+\pagestyle{fancytfg}
+\input{./especificaciones}
+
+\clearpage
+\pagestyle{empty}
+%% PRESUPUESTO
+\part[Presupuesto]{
+    \vspace{-4.0cm}
+    \input{./portadas/portada-presupuesto}
+}
+\parttoc
+\pagestyle{fancytfg}
+\input{./presupuesto}
+
+\end{document}

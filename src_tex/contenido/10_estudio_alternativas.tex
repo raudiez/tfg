@@ -1,0 +1,262 @@
+Para la realización del Proyecto, se han tenido en cuenta diversas alternativas para los diferentes aspectos del Proyecto, ya sea la plataforma a utilizar para la recogida de datos de los generadores de alertas, la forma de generar las alertas visuales o la comunicación entre los diferentes elementos que engloben el sistema, entre otros. \\
+
+Por ello se analizarán en distintos apartados las alternativas para cada caso.
+
+\section{Nodos informativos visuales}
+Teniendo claro a raíz del estudio de requisitos y de los resultados obtenidos en las encuestas realizadas, disponible en el apartado~\ref{sec:especificaciones}, los elementos principales que conformarán las alertas visuales serán luces RGB, a modo de bombillas de rosca E27 de acuerdo con los requisitos no funcionales NFR-01 y NFR-03, que puedan ser fácilmente implantadas en una vivienda real; y algún smartphone Android que conectar al sistema, de acuerdo con el requisito no funcional NFR-02, que recibirá las alertas en forma de notificación de texto.\\
+
+Se analizaron por tanto las principales bombillas LED del mercado que fuesen controlables mediante alguna tecnología de red, para poder comunicar estas con el nodo central de recogida y envío de información. Las bombillas tenidas en cuenta fueron las que se muestran en la tabla~\ref{tab:bombillas}. \\
+
+\begin{table}[H]
+    \centering
+    {\arraybackslash\def\arraystretch{1.7}
+        \begin{tabularx}{\textwidth}{p{2.35cm}|l|X|p{4.44cm}|p{3cm}}
+            \multicolumn{1}{c|}{\textbf{Modelo}} & \multicolumn{1}{c|}{\textbf{Color}} & \multicolumn{1}{c|}{\textbf{Comunicación}} & \multicolumn{1}{c|}{\textbf{Precio}} & \multicolumn{1}{c}{\textbf{Observaciones}} \\ \hline
+            Philips Hue~\cite{huesite}& RGB & \vspace{-2.8mm}\begin{itemize}[noitemsep,nosep,leftmargin=0.30cm]
+                \item Puente-bombillas: ZigBee
+                \item Conexión a puente mediante Ethernet
+            \end{itemize} & \vspace{-2.8mm}\begin{itemize}[noitemsep,nosep,leftmargin=0.30cm]
+                \item Starter Kit: 199.95 €~\cite{huestarterprice}
+                \item Bombilla E27: 52.99 €~\cite{hueindividualprice}
+            \end{itemize} & El puente no se vende por separado, es necesario adquirir el Starter Kit. \\
+            Belkin WeMo~\cite{wemosite}& Blanco & \vspace{-2.8mm}\begin{itemize}[noitemsep,nosep,leftmargin=0.30cm]
+                \item Puente-bombillas: ZigBee
+                \item Conexión a puente mediante WiFi
+            \end{itemize} & \vspace{-2.8mm}\begin{itemize}[noitemsep,nosep,leftmargin=0.30cm]
+                \item Starter Kit: 99.90 €~\cite{wemostarterprice}
+                \item Bombilla E27: 29.99 €~\cite{wemoindividualprice}
+            \end{itemize} & El puente no se vende por separado, es necesario adquirir el Starter Kit. \\
+            LimitLessLED \cite{limitlessledsite}& RGB & \vspace{-2.8mm}\begin{itemize}[noitemsep,nosep,leftmargin=0.30cm]
+                \item Puente-bombillas: WiFi
+                \item Conexión a puente mediante WiFi
+            \end{itemize} & \vspace{-2.8mm}\begin{itemize}[noitemsep,nosep,leftmargin=0.30cm]
+                \item Starter Kit: 62.45 €~\cite{limitlessledstarterprice}
+                \item Bombilla E27: 20.82 € \cite{limitlessledindividualprice}
+                \item Puente: 17.65 €~\cite{limitlessledpuenteprice}
+            \end{itemize} & Puente disponible por separado.
+        \end{tabularx}
+    }
+    \caption{Comparativa de bombillas LED}
+    \label{tab:bombillas}
+\end{table}
+
+Ya sea a través de ZigBee o WiFi, queda claro observando la tabla que las 3 opciones de bombillas disponibles requieren de un puente inalámbrico al que conectar, que será el controlador principal de las bombillas y su estado. En todo caso, estos puentes deben ir conectados a través de red local al nodo central que manejará las alertas, ya sea mediante WiFi o cable Ethernet.
+
+
+\clearpage
+\section{Conexión nodo central-smartphone}
+Como se ha comprobado, en el sistema se debe contemplar el uso de un smartphone Android que reciba las mismas alertas a modo de texto, para que el usuario pueda recibir las alertas de varias formas, pudiendo no estar atento a las luces de la vivienda o pudiendo tenerlas apagadas.\\
+
+Será necesario por tanto conectar de alguna forma este dispositivo al sistema. Existen en esencia 2 alternativas para ello:
+
+\begin{itemize}
+    \item Conexión mediante red WiFi (IEEE 802.11).
+    \item Conexión mediante Bluetooth.
+\end{itemize}
+
+Para la primera opción, teniendo en cuenta que las bombillas utilizadas también requerirán conexión de red, lo más apropiado será utilizar un router WiFi con capacidad para varias conexiones Ethernet. De este modo, el nodo central podrá conectarse al router WiFi ya sea mediante WiFi o cable Ethernet, y a su vez estarán conectados también al router el puente controlador de las bombillas, y el smartphone Android.\\
+
+Para la segunda opción, será necesario que el nodo central cuente con algún dispositivo de comunicación Bluetooth, mediante el cual enviar las alertas al smartphone Android.
+
+    \subsection{Bluetooth}
+        El Bluetooth es un tipo de red WPAN de los más utilizados en el mercado. Cualquier smartphone Android cuenta hoy día con conexión Bluetooth. Aunque la distancia que cubre es relativamente pequeña (10 metros normalmente, hasta 100 metros utilizando repetidores), el objetivo de esta tecnología es sustituir los cables de interconexión entre dispositivos, objetivo que cumple porque la mayoría de estas conexiones no superan los 10 metros de distancia.
+
+        \subsubsection{Especificaciones técnicas}
+        Las especificaciones técnicas principales del estándar Bluetooth de interés para este proyecto se recogen en la tabla~\ref{tab:bluetooth}.
+
+        \begin{table}[!ht]
+            \centering
+            {
+            \begin{tabularx}{\textwidth}{|l|X|}
+                \hline
+                \textbf{Banda de Frecuencia} & 2,4 GHz. \\ \hline
+                \textbf{Velocidad de datos} & Hasta 721 kbps por piconet. \\ \hline
+                \textbf{Distancia máxima} & 10 m. \\ \hline
+            \end{tabularx}
+            }
+            \caption{Especificaciones técnicas principales de interés del estándar Bluetooth.}
+            \label{tab:bluetooth}
+        \end{table}
+
+        \subsubsection{Seguridad}
+        Bluetooth define tres niveles de seguridad:
+
+        \begin{itemize}
+            \item \textbf{No seguro:} no se emplea ningún mecanismo de seguridad.
+            \item \textbf{Seguridad a nivel de servicio:} permiso concedido por servicio (se puede acceder a un servicio pero no al resto).
+            \item \textbf{Seguridad a nivel de enlace:} requiere de autenticación y autorización del dispositivo al que desea conectarse.
+        \end{itemize}
+
+        El último es el nivel más seguro y el más extendido en la actualidad.
+
+        \subsubsection{Aplicaciones}
+        Las características del estándar Bluetooth hacen de esta conexión adecuada para:
+
+        \begin{itemize}
+            \item Conexión a otras redes a través de otro dispositivo que funcione como punto de acceso.
+            \item Conexión entre periféricos y dispositivos, sustituyendo el cable por un enlace inalámbrico.
+            \item Conexión entre dispositivos para transferencia de datos y sincronización.
+        \end{itemize}
+
+        En resumen, una conexión Bluetooh es apta para cualquier conexión entre dispositivos que no requiera un gran alcance (10 metros).
+
+    \subsection{WiFi (IEEE 802.11)}
+        Aunque comúnmente conocido como WiFi (o Wi-Fi), el estándar IEEE 802.11 es un conjunto de especificaciones que implementan WLAN en las bandas de frecuencia 2.4 GHz, 3.6 GHz, 5 GHz y 60GHz. Inicialmente, Wi-Fi es el nombre de una marca comercial de la WECA (actualmente Wi-Fi Alliance), organización comercial que aprueba y certifica que los dispositivos de comunicación WLAN cumplen con el estándar IEEE 802.11. Actualmente, la misma Wi-Fi Alliance define ``Wi-Fi'' como cualquier producto basado en conexión WLAN que cumple con ese estándar IEEE 802.11. Aún así, es tan extendido el uso de la palabra ``WiFi'' que resulta raro hablar del estándar. En este documento, cuando se emplee la palabra ``WiFi'', se referirá a una red WLAN que cumpla con el estándar IEEE 802.11.\\
+
+        La distancia que es capaz de cubrir es bastante amplia (si el dispositivo cumple con 802.11g u 802.11n), pudiendo llegar hasta los 100 metros con facilidad.
+
+        \subsubsection{Especificaciones técnicas}
+        Las especificaciones técnicas principales del estándar 802.11n (utilizado actualmente) de interés para este proyecto se recogen en la tabla~\ref{tab:80211n}.
+
+        \begin{table}[!ht]
+            \centering
+            {
+            \begin{tabularx}{\textwidth}{|l|X|}
+                \hline
+                \textbf{Banda de Frecuencia} & 2,4 GHz y 5 GHz. \\ \hline
+                \textbf{Velocidad de datos} & Hasta 150 Mbps. \\ \hline
+                \textbf{Distancia máxima} & 70 m en interior, 250 m en exterior. \\ \hline
+            \end{tabularx}
+            }
+            \caption{Especificaciones técnicas principales de interés del estándar IEEE 802.11n.}
+            \label{tab:80211n}
+        \end{table}
+
+        \subsubsection{Seguridad}
+        Actualmente existen varias formas de securizar una red WiFi, entre las que destacan:
+
+        \begin{itemize}
+            \item \textbf{Sin seguridad:} Red abierta, sin necesidad de autenticar el dispositivo a conectar.
+            \item \textbf{WEP:} Cifrado muy común en los inicios de esta tecnología, se compone de claves de entre 64 y 128 bits. Cada cierto tiempo, el dispositivo conectado envía parte de la clave al dispositivo que genera la conexión de red, para verificar que está conectado a la red. Esto supone una brecha importante de seguridad.
+            \item \textbf{WPA:} Cifrado que mejora a su predecesor WEP, e incluye otras mejoras, generación dinámica de claves, y anticipa el entonces en desarrollo estándar IEEE 802.11i. Además palia los fallos de seguridad del cifrado WEP. Incrementa el tamaño de las claves y el número en uso e introduce un nuevo mensaje de control de integridad más seguro.
+            \item \textbf{WPA2:} Mejora de WPA, que cambia el esquema de encriptado utilizado por AES, por lo que mejora nuevamente en nivel de seguridad.
+        \end{itemize}
+
+        \subsubsection{Aplicaciones}
+        Gracias a sus características, y sobre todo a su amplia distancia máxima que cubre, hacen de esta tecnología adecuada para:
+
+        \begin{itemize}
+            \item Conexión a otras redes a través de un dispositivo que funcione como punto de acceso.
+            \item Conexión entre periféricos, cada vez más extendido, gracias a la inclusión de chips con conexión WiFi en los dispositivos más modernos.
+            \item Conexión entre dispositivos para transferencia de datos, sincronización y creación de redes locales con otros fines.
+        \end{itemize}
+
+        En resumen, una conexión WiFi es apta para cualquier conexión entre dispositivos, con la posibilidad de abarcar una gran distancia (100 metros).
+
+
+\section{Plataforma para nodo central}
+    El sistema deberá contar con un nodo central que maneje la información recibida, y genere las alertas necesarias, activando las alertas visuales mediante luces, y enviando las mismas alertas al smartphone Android. Este nodo central estará integrado en el sistema implementado en la vivienda, y no será visible ni accesible por el usuario final una vez instalado. \\
+
+    Por ello, se han tenido en cuenta dos alternativas: utilizar una placa Arduino, o usar una computadora Raspberry Pi.
+
+    \subsection{Arduino}
+        Arduino es una plataforma de hardware libre, basada en una placa con microcontrolador. En concreto, para este Proyecto se ha tenido en cuenta la placa Arduino Mega, al ser una de las placas Arduino con mayor capacidad de memoria flash programable. \\
+
+        La programación de estas placas es bastante sencilla, bastando con conectar la placa mediante su conector USB a un ordenador, y utilizar el entorno de desarrollo de Arduino (o cualquier editor que admita el uso de este entorno como plug-in) para escribir y cargar los programas en la placa.
+
+        \subsubsection{Características técnicas}
+        La Arduino Mega está basada en el microcontrolador ATMega1280, es una de las de mayor tamaño, sus pines digitales operan con una corriente de 5 V y sus características principales son las reflejadas en la tabla~\ref{tab:arduino}~\cite{megaspecs}.
+
+        \begin{table}[!ht]
+            \centering
+            {
+            \begin{tabularx}{\textwidth}{|l|X|}
+                \hline
+                \textbf{Pines I/O digitales} & 54, de los cuales 15 proporcionan salida PWM. \\ \hline
+                \textbf{Pines de entrada analógica} & 16. \\ \hline
+                \textbf{Memoria flash} & 128 kB, de los cuales 4 kB son utilizados por el bootloader. \\
+                \hline
+                \textbf{Alimentación} & USB o conector jack, con voltaje máximo recomendado de entre 7 y 12 V. \\ \hline
+                \textbf{Consumo} & $\sim$ 50 mA, 0.3 W. \\ \hline
+            \end{tabularx}
+            }
+            \caption{Características técnicas principales de interés de Arduino Mega.}
+            \label{tab:arduino}
+        \end{table}
+
+        Las placas Arduino son cada vez más utilizadas en entornos donde el funcionamiento del sistema será siempre el mismo, sin desaprovechar así un sistema operativo interno ni funcionalidades extra no necesarias. \\
+
+        Además, Arduino cuenta con una gran variedad de placas adicionales para dotar a sus placas Arduino de características o conexiones que no están disponibles por defecto.
+
+        \subsubsection{Estudio de viabilidad de la alternativa}
+
+        Como paso previo a la solución final, se estudió la posibilidad de utilizar Arduino como nodo central del sistema para la solución del Proyecto. Por ello, es necesario tener en cuenta en este apartado la elección de solución para cada alternativa anteriormente mencionada, expuesta en el apartado~\ref{cap:solucion}. \\
+
+        Es necesario por tanto acoplar una Shield propia de Arduino a la Arduino Mega, para dotarla de conexión a la red. Existen dos alternativas: utilizar una Shield WiFi, o utilizar una Shield Ethernet. Con la segunda opción se asegura una conexión estable (cable). Además, la Shield WiFi ha sido descatalogada como producto oficial de Arduino, y ya no se le da soporte ni a la placa ni a la documentación sobre esta. Por tanto se utilizará una Shield Ethernet para conectar la Arduino a la red, y con ello conectar con el smartphone Android y con el puente Hue de Phillips. \\
+
+        La Shield Ethernet utilizada monta un chip Ethernet nuevo (WIZnet W5500) para el que, a fecha de realización de este estudio, Arduino no da soporte a través de su entorno de desarrollo, por lo que es necesario utilizar una librería del propio fabricante del chip~\cite{wiznetgit}. \\
+
+        Para la comunicación con el puente Philips Hue, es necesario realizar peticiones HTTP mediante una interfaz RESTful~\cite{howhueworks} (peticiones GET, PUT, POST y DELETE), de acuerdo además con el requisito no funcional NFR-04. El puente además gestionará las peticiones y dará como resultado a estas, respuestas en formato JSON, por lo que será necesario gestionar estas cadenas formateadas para poder obtener los datos necesarios facilitados por la interfaz del puente. De acuerdo a la API de Philips Hue, las peticiones y respuestas se dan únicamente en formato JSON, por lo que se hace obligatorio utilizarlo (requisito no funcional NFR-05). Arduino no cuenta entre las librerías de su entorno con ninguna herramienta para el manejo de cadenas JSON (parser de JSON), por lo que de entre todas las posibilidades existentes para el manejo de estas cadenas en lenguaje C/C++, se estudian dos alternativas posibles desarrolladas con licencia de software libre: utilizar la librería ArduinoJson desarrollada por Benoît Blanchon disponible en GitHub~\cite{arduinojsongit}, o utilizar la librería aJson desarrollada por el equipo Interactive Matter disponible también en GitHub~\cite{ajsongit}. \\
+
+        La primera librería, ArduinoJson, está más optimizada para su uso en placas Arduino, gestionando de mejor manera la corta memoria programable de la placa. La segunda, es una librería para manejo de cadenas JSON, desarrollada también para placas Arduino, pero sin optimizar tanto la memoria, sino centrándose en las funcionalidades. La segunda librería es más completa, pero la primera está más optimizada. Debido a la escasa memoria con la que cuenta Arduino, se decidió utilizar la librería ArduinoJson, para optimizar el uso de recursos de la placa. \\
+
+        Con Arduino además, al estar bastante limitado en lo que a memoria se refiere, se encuentran problemas al utilizar cadenas de caracteres en objetos de la clase String, los cuales consumen mucha memoria. Además, entre las implementaciones de la clase String con las que cuenta Arduino en su entorno de desarrollo, String es la más ligera de las implementaciones, contando además con WString o TextString dentro de las librerías del entorno. Esto hace que sea necesario utilizar variables de tipos más ligeros, como el tipo char, utilizando arrays dinámicos de este tipo.\\
+
+        Tras varias pruebas, se decidió además optar por usar una adaptación de la librería de software libre para el manejo de peticiones REST, RestClient~\cite{restclientgit}, optimizando el uso de recursos de la librería, y cambiando el uso de variables de la clase String por arrays dinámicos de caracteres char. Esta librería modificada puede consultarse en el código asociado a este documento, disponible también en un repositorio en GitHub (apartado~\ref{sec:repogithub}). \\
+
+        Para comprobar el uso de memoria que tenía el programa en la placa Arduino, se utilizó un sencillo código puesto a disposición en la web oficial de Arduino~\cite{memoryfreearduino}\cite{memoryfreegit}, el cual examina la memoria disponible restante de la placa. \\
+
+        \arduinoexternal[linerange={1-8,11-11,13-62}]{./contenido/src/arduino/testHueStateV3.ino}
+        \vspace{0.3cm}
+
+        En el último programa de test realizado para Arduino, los resultados obtenidos seguían siendo desfavorables:
+        \begin{itemize}
+            \item Al iniciar el programa, e inicializar la Shield Ethernet (sin realizar aún conexión con el puente), la función \textbf{freeMemory()} devolvía un resultado de 7198 B, ejecutando todo esto en la función \textbf{setup()} propia de Arduino.
+            \item Tras terminar la función \textbf{setup()}, y conectar con el puente Philips Hue,  \textbf{freeMemory()} retornaba un valor de 6920 B.
+            \item Finalmente, al concluir toda una iteración de la función \textbf{loop()} (la primera iteración), \textbf{freeMemory()} devolvía un valor de 2560 B, habiendo ahora realizado una petición al puente para recibir un JSON con información sobre todas las bombillas conectadas, y contando estas bombillas para obtener el número que había de ellas (ya que no hay ninguna forma propia en la API para realizar esta operación).
+        \end{itemize}
+
+        Justo después, al realizar la segunda iteración del \textbf{loop()}, la ejecución quedaba parada con la placa Arduino bloqueada, necesitando realizar un reset a esta para que volviese a iniciar su ejecución. \\
+
+        Tras dos meses de pruebas, corrección de errores y optimizaciones, y tras obtener estos resultados, esta solución fue descartada, debido a la gran falta de memoria de Arduino, que tenía que trabajar con grandes cadenas JSON de caracteres, dando paso a la solución final del Proyecto.
+
+    \subsection{Raspberry Pi}
+        Raspberry Pi es un computador embebido de bajo coste, el cual opera un sistema operativo GNU/Linux. En concreto, para este Proyecto se ha estudiado la posibilidad de utilizar una Raspberry Pi modelo B, al tener un rendimiento más que suficiente para la tarea que realizaría.
+
+        \subsubsection{Características técnicas}
+        La Raspberry Pi B, la versión más básica a la venta de Raspberry Pi con conexión Ethernet, cuenta con un procesador Broadcom BCM2835, un lector de tarjetas microSD en la cual se carga el sistema operativo y cuenta con las características mostradas en la tabla~\ref{tab:raspberry}~\cite{raspberrypidocs}.
+
+         \begin{table}[!ht]
+            \centering
+            {
+            \begin{tabularx}{\textwidth}{|l|X|}
+                \hline
+                \textbf{Pines I/O digitales} & 26 pines GPIO. \\ \hline
+                \textbf{Pines de entrada analógica} & No. \\ \hline
+                \textbf{Memoria} & 512 MB de memoria RAM, sin memoria flash. Los programas se ejecutan bajo el sistema operativo GNU/Linux. \\ \hline
+                \textbf{Alimentación} & MicroUSB. \\ \hline
+                \textbf{Consumo} & 700 mA, 3.5 W. \\ \hline
+            \end{tabularx}
+            }
+            \caption{Características técnicas principales de interés de Raspberry Pi B.}
+            \label{tab:raspberry}
+        \end{table}
+
+        Gracias a ejecutar un sistema operativo GNU/Linux completo, este ordenador embebido es bastante completo y potente, pudiéndose ejecutar casi cualquier tipo de código y programas en él. Los pines GPIO de Raspberry Pi operan a 3.3 V, y utilizar un mayor voltaje derivaría en la destrucción del bloque GPIO y el SoC.
+
+        \subsubsection{Sistema operativo}
+
+        Existen varias alternativas, como son ArchLinux ARM, Raspbian o Minibian; pero se decide instalar como sistema operativo ArchLinux ARM, siendo más ligero que las variantes basadas en la distribución GNU/Linux Debian, al incluir un sistema más limpio de serie, sin entorno de escritorio ni servicios externos ya incluidos. Cualquiera de los 3 sistemas puede utilizarse para este Proyecto, siendo Raspbian el más pesado. \\
+
+        En el anexo~\ref{instalacionarch} se detalla el procedimiento de instalación de Arch Linux ARM en una Raspberry Pi B, además de la configuración del sistema y la instalación de las herramientas software necesarias.
+
+\section{Electrónica para la detección de alertas}
+
+    Para la detección de la señal enviada por el telefonillo y el timbre, se han tenido en cuenta varias alternativas que surgen a raíz de la elección del tipo de telefonillo y de la necesidad de detectar las alertas generadas por este y por el timbre.
+    \begin{itemize}
+        \item La primera de las alternativas es utilizar un relé de 12 Vac con salida hasta 5 V para el telefonillo y un relé de 230 Vac con salida hasta 5 V para el timbre, teniendo la salida conectada directamente al nodo central, y detectando las llamadas a ambos.
+        \item La segunda alternativa propuesta es utilizar un conversor de 12 Vac a 5 V para el telefonillo y un relé de 230 Vac con salida hasta 5 V para el timbre, realizando un sistema basado en un regulador de tensión o utilizando un conversor ya implementado que se encuentre en el mercado para la detección de llamadas al telefonillo.
+    \end{itemize}
+%%%%% ALTERNATIVA RASPI - ARDUINO Y BT-WIFI %%%%%%%%
+% Para conectar el "proyecto" con un smartphone Android, tenemos 2 opciones:
+% *Conexión mediante Bluetooth, sobre la cual Carlos ya ha expresado sus dudas por lo que a alcance se refiere. Esta opción se descarta, pero se podría hacer sin Raspberry de por medio.
+% *Conexión mediante WiFi, que es la que veo mejor, para lo que puede (no lo sé pues no he utilizado Arduino con módulos WiFi o módulo Ethernet) que no se necesite la Raspberry Pi. La idea de la Raspberry Pi era tener una base de datos que contuviese un objeto JSON, el cual se fuese actualizando con la información que llegase de Arduino.
+% Además, la Raspberry sería la encargada de manejar las bombillas mediante el uso de los métodos HTTP, por medio de un script en Python o Bash (preferiblemente Python, así se unifica la comunicación con Arduino y con las bombillas). Dudo que sea tan fácil manejar las bombillas y utilizar estos mismos métodos HTTP desde Arduino, y por lo que veo, sólo se puede conectar Arduino con Hue a través de un PC intermediario (aquí se puede ver lo que digo). Es por esto que, como Arduino no es capaz de gestionar estos métodos HTTP directamente, se necesita la Raspberry Pi, ordenador de bajo coste que realizaría esta función perfectamente.
+% Por tanto, la Raspberry se utilizaría para 2 cosas: comunicación con Android (posible con Arduino) y comunicación con Hue (las bombillas, que no es posible directamente con Arduino). La Raspberry Pi por tanto, a no ser que encuentre algo que contradiga esto, es necesaria.
+
+% Volviendo al grano, recuerda que existe la posibilidad de conectar Arduino con Android, de ello hay mucha literatura.
+% Si te mueves por una casa perderás la conexión con BT.
+% Existen librerías JSON para arduino
+% https://github.com/interactive-matter/aJson
+% También existen librerías muy sencillas que te proporcionan un cliente http sobre una la shield de ethernet. Raúl, te lanzo un reto ;-) Si, entre le resto de cosas, eres capaz de crear una librería para controlar las bombillas desde la shield ethernet, del mismo tipo que la que has puesto arriba, el proyecto te quedará genial.
+% Te darás cuenta que realmente no es necesaria ;-)

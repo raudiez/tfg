@@ -1,0 +1,15 @@
+%% Para no mostrar el "Capítulo N" antes del título del capítulo:
+\titleformat{\chapter}[display]{\normalfont\bfseries}{}{0pt}{\Large}
+\titlespacing*{\chapter}{0pt}{10pt}{20pt}
+
+\includepdf[pages={1},scale=0.85,offset=0 0,pagecommand={\chapter[Plano 1: Esquemático PCB para conexión con telefonillo]{\thispagestyle{empty}}\label{sec:plano3}}]{./content_planos/esque_12v_CAJETIN.pdf}
+
+\includepdf[pages={1},scale=0.85,offset=0 0,pagecommand={\chapter[Plano 2: Layout PCB para conexión con telefonillo]{\thispagestyle{empty}}\label{sec:plano4}}]{./content_planos/pcb_12v_CAJETIN.pdf}
+
+\includepdf[pages={1},scale=0.85,offset=0 0,pagecommand={\chapter[Plano 3: Esquemático PCB para conexión con timbre]{\thispagestyle{empty}}\label{sec:plano1}}]{./content_planos/esque_240v_CAJETIN.pdf}
+
+\includepdf[pages={1},scale=0.85,offset=0 0,pagecommand={\chapter[Plano 4: Layout PCB para conexión con timbre]{\thispagestyle{empty}}\label{sec:plano2}}]{./content_planos/pcb_240v_CAJETIN.pdf}
+
+%% Cambio de nuevo el formato del título, ahora en lugar de
+%% "Capítulo N" es "N. TÍTULO_DEL_CAPÍTULO"
+\titleformat{\chapter}{}{}{0em}{\bf\Huge\thechapter.~}

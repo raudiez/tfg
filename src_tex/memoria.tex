@@ -1,0 +1,62 @@
+
+%% Empiezo en capítulo 0.
+\setcounter{chapter}{-1}
+
+%% Para no mostrar el "Capítulo N" antes del título del capítulo:
+\titleformat{\chapter}[display]{\normalfont\bfseries}{}{0pt}{\Large}
+\titlespacing*{\chapter}{0pt}{10pt}{20pt}
+
+\chapter[Hoja de Identificación]{
+    \thispagestyle{empty}
+    \normalsize
+    \mdseries
+    \Huge\bf{Hoja de Identificación}
+}
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\input{./contenido/0_hoja_identificacion}
+\newpage
+
+
+%% Cambio de nuevo el formato del título, ahora en lugar de
+%% "Capítulo N" es "N. TÍTULO_DEL_CAPÍTULO"
+\titleformat{\chapter}{}{}{0em}{\bf\Huge\thechapter.~}
+
+\chapter{Introducción}
+\input{./contenido/1_introduccion}
+
+\chapter{Objetivo}
+\input{./contenido/2_objetivo}
+
+\chapter{Antecedentes}
+\input{./contenido/3_antecedentes}
+
+\chapter{Descripción de la Situación Actual}
+\input{./contenido/4_descripcion_situacion_actual}
+
+\chapter{Normas y Referencias}
+\input{./contenido/5_normas_refs}
+
+\chapter{Definiciones y Abreviaturas}
+\input{./contenido/6_defs_abrevs}
+
+\chapter{Requisitos Iniciales}
+\input{./contenido/7_requisitos_iniciales}
+
+\chapter{Alcance}
+\input{./contenido/8_alcance}
+
+\chapter{Estudio de Alternativas y Viabilidad}
+\input{./contenido/10_estudio_alternativas}
+
+%%\clearpage
+
+\chapter{Descripción de la Solución Propuesta}
+\input{./contenido/11_solucion_propuesta}
+
+\chapter{Planificación Temporal}
+\input{./contenido/14_planificacion}
+
+\chapter{Resumen del Presupuesto}
+\input{./contenido/15_resumen_presupuesto}
